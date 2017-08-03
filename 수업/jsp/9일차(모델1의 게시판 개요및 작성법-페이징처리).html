@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>9일차(모델1의 게시판 개요및 작성법-페이징처리)</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+
+    <style>
+    .markdown-preview-enhanced pre.editor-colors.editor-colors,
+.markdown-preview-enhanced code {
+  background-color: #f7f7f7 !important;
+}
+pre.editor-colors {
+  background-color: #fff;
+  color: #333;
+}
+pre.editor-colors .line.cursor-line {
+  background-color: #f5f5f5;
+}
+pre.editor-colors .invisible {
+  color: #c0c0c0;
+}
+pre.editor-colors .cursor {
+  border-left: 2px solid #000;
+}
+pre.editor-colors .selection .region {
+  background-color: #c8c8fa;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-bottom: 1px solid #000;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character {
+  color: #c0c0c0;
+}
+pre.editor-colors .indent-guide {
+  color: #c0c0c0;
+}
+pre.editor-colors .wrap-guide {
+  background-color: #c0c0c0;
+}
+pre.editor-colors .gutter {
+  background-color: #fff;
+  color: #333;
+}
+pre.editor-colors .gutter .line-number {
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  color: #333;
+  background-color: #f5f5f5;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right {
+  color: #333;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(255, 236, 236, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #333;
+}
+pre.editor-colors .search-results .mpe-syntax--marker .region {
+  background-color: transparent;
+  border: 1px solid #ed6a43;
+}
+pre.editor-colors .search-results .mpe-syntax--marker.current-result .region {
+  border: 1px solid #fff;
+}
+.mpe-syntax--comment,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--comment,
+.mpe-syntax--string.mpe-syntax--comment {
+  color: #969896;
+}
+.mpe-syntax--constant,
+.mpe-syntax--entity.mpe-syntax--name.mpe-syntax--constant,
+.mpe-syntax--variable.mpe-syntax--other.mpe-syntax--constant,
+.mpe-syntax--variable.mpe-syntax--language {
+  color: #0086b3;
+}
+.mpe-syntax--entity,
+.mpe-syntax--entity.mpe-syntax--name {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #795da3;
+}
+.mpe-syntax--variable.mpe-syntax--parameter.mpe-syntax--function {
+  color: #333;
+}
+.mpe-syntax--entity.mpe-syntax--name.mpe-syntax--tag {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #63a35c;
+}
+.mpe-syntax--keyword {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #a71d5d;
+}
+.mpe-syntax--storage,
+.mpe-syntax--storage.mpe-syntax--type {
+  color: #a71d5d;
+}
+.mpe-syntax--storage.mpe-syntax--modifier.mpe-syntax--package,
+.mpe-syntax--storage.mpe-syntax--modifier.mpe-syntax--import,
+.mpe-syntax--storage.mpe-syntax--type.mpe-syntax--java {
+  color: #333;
+}
+.mpe-syntax--string,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--string,
+.mpe-syntax--string .mpe-syntax--punctuation.mpe-syntax--section.mpe-syntax--embedded .mpe-syntax--source {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #183691;
+}
+.mpe-syntax--support {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--meta.mpe-syntax--property-name {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--variable {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #ed6a43;
+}
+.mpe-syntax--variable.mpe-syntax--other {
+  color: #333;
+}
+.mpe-syntax--invalid.mpe-syntax--broken {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+  color: #b52a1d;
+}
+.mpe-syntax--invalid.mpe-syntax--deprecated {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+  color: #b52a1d;
+}
+.mpe-syntax--invalid.mpe-syntax--illegal {
+  font-style: italic;
+  text-decoration: underline;
+  background-color: #b52a1d;
+  color: #f8f8f8;
+}
+.mpe-syntax--carriage-return {
+  font-style: italic;
+  text-decoration: underline;
+  background-color: #b52a1d;
+  color: #f8f8f8;
+  undefined: ^M;
+}
+.mpe-syntax--invalid.mpe-syntax--unimplemented {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+  color: #b52a1d;
+}
+.mpe-syntax--message.mpe-syntax--error {
+  color: #b52a1d;
+}
+.mpe-syntax--string .mpe-syntax--source {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #333;
+}
+.mpe-syntax--string .mpe-syntax--variable {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--source.mpe-syntax--regexp,
+.mpe-syntax--string.mpe-syntax--regexp {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #183691;
+}
+.mpe-syntax--string.mpe-syntax--regexp.mpe-syntax--character-class,
+.mpe-syntax--string.mpe-syntax--regexp .mpe-syntax--constant.mpe-syntax--character.mpe-syntax--escape,
+.mpe-syntax--string.mpe-syntax--regexp .mpe-syntax--source.mpe-syntax--ruby.mpe-syntax--embedded,
+.mpe-syntax--string.mpe-syntax--regexp .mpe-syntax--string.mpe-syntax--regexp.mpe-syntax--arbitrary-repitition {
+  color: #183691;
+}
+.mpe-syntax--string.mpe-syntax--regexp .mpe-syntax--constant.mpe-syntax--character.mpe-syntax--escape {
+  font-weight: bold;
+  color: #63a35c;
+}
+.mpe-syntax--support.mpe-syntax--constant {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--support.mpe-syntax--variable {
+  color: #0086b3;
+}
+.mpe-syntax--meta.mpe-syntax--module-reference {
+  color: #0086b3;
+}
+.mpe-syntax--markup.mpe-syntax--list {
+  color: #693a17;
+}
+.mpe-syntax--markup.mpe-syntax--heading,
+.mpe-syntax--markup.mpe-syntax--heading .mpe-syntax--entity.mpe-syntax--name {
+  font-weight: bold;
+  color: #1d3e81;
+}
+.mpe-syntax--markup.mpe-syntax--quote {
+  color: #008080;
+}
+.mpe-syntax--markup.mpe-syntax--italic {
+  font-style: italic;
+  color: #333;
+}
+.mpe-syntax--markup.mpe-syntax--bold {
+  font-weight: bold;
+  color: #333;
+}
+.mpe-syntax--markup.mpe-syntax--raw {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--markup.mpe-syntax--deleted,
+.mpe-syntax--meta.mpe-syntax--diff.mpe-syntax--header.mpe-syntax--from-file,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+.mpe-syntax--markup.mpe-syntax--inserted,
+.mpe-syntax--meta.mpe-syntax--diff.mpe-syntax--header.mpe-syntax--to-file,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+.mpe-syntax--markup.mpe-syntax--changed,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--changed {
+  background-color: #ffe3b4;
+  color: #ef9700;
+}
+.mpe-syntax--markup.mpe-syntax--ignored,
+.mpe-syntax--markup.mpe-syntax--untracked {
+  color: #d8d8d8;
+  background-color: #808080;
+}
+.mpe-syntax--meta.mpe-syntax--diff.mpe-syntax--range {
+  color: #795da3;
+  font-weight: bold;
+}
+.mpe-syntax--meta.mpe-syntax--diff.mpe-syntax--header {
+  color: #0086b3;
+}
+.mpe-syntax--meta.mpe-syntax--separator {
+  font-weight: bold;
+  color: #1d3e81;
+}
+.mpe-syntax--meta.mpe-syntax--output {
+  color: #1d3e81;
+}
+.mpe-syntax--brackethighlighter.mpe-syntax--tag,
+.mpe-syntax--brackethighlighter.mpe-syntax--curly,
+.mpe-syntax--brackethighlighter.mpe-syntax--round,
+.mpe-syntax--brackethighlighter.mpe-syntax--square,
+.mpe-syntax--brackethighlighter.mpe-syntax--angle,
+.mpe-syntax--brackethighlighter.mpe-syntax--quote {
+  color: #595e62;
+}
+.mpe-syntax--brackethighlighter.mpe-syntax--unmatched {
+  color: #b52a1d;
+}
+.mpe-syntax--sublimelinter.mpe-syntax--mark.mpe-syntax--error {
+  color: #b52a1d;
+}
+.mpe-syntax--sublimelinter.mpe-syntax--mark.mpe-syntax--warning {
+  color: #ed6a43;
+}
+.mpe-syntax--sublimelinter.mpe-syntax--gutter-mark {
+  color: #c0c0c0;
+}
+.mpe-syntax--constant.mpe-syntax--other.mpe-syntax--reference.mpe-syntax--link,
+.mpe-syntax--string.mpe-syntax--other.mpe-syntax--link {
+  color: #183691;
+  text-decoration: underline;
+}
+.scrollbar-style::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar-style::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #fff;
+}
+.scrollbar-style::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(150, 150, 150, 0.66);
+  border: 4px solid rgba(150, 150, 150, 0.66);
+  background-clip: content-box;
+}
+.markdown-preview-enhanced-container .mpe-toolbar {
+  position: absolute;
+  top: 32px;
+  right: 24px;
+  opacity: 0;
+  display: block;
+}
+.markdown-preview-enhanced-container .mpe-toolbar .back-to-top-btn,
+.markdown-preview-enhanced-container .mpe-toolbar .refresh-btn,
+.markdown-preview-enhanced-container .mpe-toolbar .sidebar-toc-btn {
+  float: right;
+  width: 32px;
+  margin-right: 4px;
+  opacity: 0.4;
+}
+.markdown-preview-enhanced-container .mpe-toolbar .back-to-top-btn:hover,
+.markdown-preview-enhanced-container .mpe-toolbar .refresh-btn:hover,
+.markdown-preview-enhanced-container .mpe-toolbar .sidebar-toc-btn:hover {
+  opacity: 1.0;
+}
+.markdown-preview-enhanced-container:hover .back-to-top-btn,
+.markdown-preview-enhanced-container:hover .refresh-btn,
+.markdown-preview-enhanced-container:hover .sidebar-toc-btn {
+  display: block;
+}
+.markdown-preview-enhanced-container.show-sidebar-toc .mpe-sidebar-toc {
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 268px;
+  height: 100%;
+  padding: 32px 0 12px 0;
+  overflow: auto;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+  box-shadow: -4px 0px 12px rgba(150, 150, 150, 0.33);
+}
+.markdown-preview-enhanced-container.show-sidebar-toc .mpe-sidebar-toc a {
+  color: #333;
+}
+.markdown-preview-enhanced-container.show-sidebar-toc .mpe-sidebar-toc ul {
+  padding: 0 1.6em;
+  margin-top: 0.8em;
+}
+.markdown-preview-enhanced-container.show-sidebar-toc .mpe-sidebar-toc li {
+  margin-bottom: 0.8em;
+}
+.markdown-preview-enhanced-container.show-sidebar-toc .mpe-sidebar-toc ul {
+  list-style-type: none;
+}
+.markdown-preview-enhanced-container.show-sidebar-toc .mpe-toolbar {
+  right: 300px;
+}
+.markdown-preview-enhanced-container.show-sidebar-toc .markdown-preview-enhanced {
+  width: calc(100% - 268px);
+}
+.markdown-preview-enhanced-container .mpe-sidebar-toc::-webkit-scrollbar,
+.markdown-preview-enhanced-container .markdown-preview-enhanced::-webkit-scrollbar {
+  width: 8px;
+}
+.markdown-preview-enhanced-container .mpe-sidebar-toc::-webkit-scrollbar-track,
+.markdown-preview-enhanced-container .markdown-preview-enhanced::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #fff;
+}
+.markdown-preview-enhanced-container .mpe-sidebar-toc::-webkit-scrollbar-thumb,
+.markdown-preview-enhanced-container .markdown-preview-enhanced::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(150, 150, 150, 0.66);
+  border: 4px solid rgba(150, 150, 150, 0.66);
+  background-clip: content-box;
+}
+.markdown-preview-enhanced {
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  overflow: initial;
+  margin: 10px 13px 10px 13px;
+  padding: 2em;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+.markdown-preview-enhanced > :first-child {
+  margin-top: 0;
+}
+.markdown-preview-enhanced[for="preview"] {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: auto;
+  font-size: 16px;
+  display: block;
+  position: absolute;
+}
+.markdown-preview-enhanced h1,
+.markdown-preview-enhanced h2,
+.markdown-preview-enhanced h3,
+.markdown-preview-enhanced h4,
+.markdown-preview-enhanced h5,
+.markdown-preview-enhanced h6 {
+  line-height: 1.2;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  color: #000000;
+}
+.markdown-preview-enhanced h1 {
+  font-size: 2.25em;
+  font-weight: 300;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #d6d6d6;
+}
+.markdown-preview-enhanced h2 {
+  font-size: 1.75em;
+  font-weight: 400;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #d6d6d6;
+}
+.markdown-preview-enhanced h3 {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.markdown-preview-enhanced h4 {
+  font-size: 1.25em;
+  font-weight: 600;
+}
+.markdown-preview-enhanced h5 {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+.markdown-preview-enhanced h6 {
+  font-size: 1.0em;
+  font-weight: 600;
+}
+.markdown-preview-enhanced h1,
+.markdown-preview-enhanced h2,
+.markdown-preview-enhanced h3,
+.markdown-preview-enhanced h4,
+.markdown-preview-enhanced h5 {
+  font-weight: 600;
+}
+.markdown-preview-enhanced h5 {
+  font-size: 1em;
+}
+.markdown-preview-enhanced h6 {
+  color: #5c5c5c;
+}
+.markdown-preview-enhanced h1,
+.markdown-preview-enhanced h2 {
+  border-bottom: 1px solid #d6d6d6;
+}
+.markdown-preview-enhanced strong {
+  color: #000000;
+}
+.markdown-preview-enhanced del {
+  color: #5c5c5c;
+}
+.markdown-preview-enhanced a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+.markdown-preview-enhanced a {
+  color: #08c;
+  text-decoration: none;
+}
+.markdown-preview-enhanced a:hover {
+  color: #0050a3;
+  text-decoration: none;
+}
+.markdown-preview-enhanced img,
+.markdown-preview-enhanced svg {
+  max-width: 100%;
+}
+.markdown-preview-enhanced > p {
+  margin-top: 0;
+  margin-bottom: 16px;
+  word-wrap: break-word;
+}
+.markdown-preview-enhanced > ul,
+.markdown-preview-enhanced > ol {
+  margin-bottom: 16px;
+}
+.markdown-preview-enhanced ul,
+.markdown-preview-enhanced ol {
+  padding-left: 2em;
+}
+.markdown-preview-enhanced ul.no-list,
+.markdown-preview-enhanced ol.no-list {
+  padding: 0;
+  list-style-type: none;
+}
+.markdown-preview-enhanced ul ul,
+.markdown-preview-enhanced ul ol,
+.markdown-preview-enhanced ol ol,
+.markdown-preview-enhanced ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.markdown-preview-enhanced li {
+  margin-bottom: 0;
+}
+.markdown-preview-enhanced li.task-list-item {
+  list-style: none;
+}
+.markdown-preview-enhanced li > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.markdown-preview-enhanced .task-list-item-checkbox {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+}
+.markdown-preview-enhanced .task-list-item-checkbox:hover {
+  cursor: pointer;
+}
+.markdown-preview-enhanced blockquote {
+  margin: 16px 0;
+  font-size: inherit;
+  padding: 0 15px;
+  color: #5c5c5c;
+  border-left: 4px solid #d6d6d6;
+}
+.markdown-preview-enhanced blockquote > :first-child {
+  margin-top: 0;
+}
+.markdown-preview-enhanced blockquote > :last-child {
+  margin-bottom: 0;
+}
+.markdown-preview-enhanced hr {
+  height: 4px;
+  margin: 32px 0;
+  background-color: #d6d6d6;
+  border: 0 none;
+}
+.markdown-preview-enhanced table {
+  margin: 10px 0 15px 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+.markdown-preview-enhanced table th {
+  font-weight: bold;
+  color: #000000;
+}
+.markdown-preview-enhanced table td,
+.markdown-preview-enhanced table th {
+  border: 1px solid #d6d6d6;
+  padding: 6px 13px;
+}
+.markdown-preview-enhanced dl {
+  padding: 0;
+}
+.markdown-preview-enhanced dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+.markdown-preview-enhanced dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+.markdown-preview-enhanced code {
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 0.85em !important;
+  color: #000000;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  padding: 0.2em 0;
+}
+.markdown-preview-enhanced code::before,
+.markdown-preview-enhanced code::after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+.markdown-preview-enhanced pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 0.85em !important;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+.markdown-preview-enhanced .highlight {
+  margin-bottom: 16px;
+}
+.markdown-preview-enhanced .highlight pre,
+.markdown-preview-enhanced pre {
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  padding: 16px;
+  overflow: auto;
+  font-size: 0.85em !important;
+  line-height: 1.45;
+  color: #333;
+  background-color: #f0f0f0 !important;
+  border: #d6d6d6;
+  border-radius: 3px;
+}
+.markdown-preview-enhanced .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+.markdown-preview-enhanced pre {
+  word-wrap: break-word;
+  white-space: normal;
+  word-break: break-all;
+}
+.markdown-preview-enhanced pre .section {
+  opacity: 1;
+}
+.markdown-preview-enhanced pre code,
+.markdown-preview-enhanced pre tt {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+.markdown-preview-enhanced pre code:before,
+.markdown-preview-enhanced pre tt:before,
+.markdown-preview-enhanced pre code:after,
+.markdown-preview-enhanced pre tt:after {
+  content: normal;
+}
+.markdown-preview-enhanced p,
+.markdown-preview-enhanced blockquote,
+.markdown-preview-enhanced ul,
+.markdown-preview-enhanced ol,
+.markdown-preview-enhanced dl,
+.markdown-preview-enhanced pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.markdown-preview-enhanced pre.editor-colors.lineNo {
+  counter-reset: lineNo;
+}
+.markdown-preview-enhanced pre.editor-colors.lineNo .line::before {
+  display: inline-block;
+  counter-increment: lineNo;
+  content: counter(lineNo);
+  text-align: right;
+  padding: 0;
+  margin-left: -1em;
+  margin-right: 1.5em;
+}
+.markdown-preview-enhanced pre.editor-colors.lineNo.lineno-100 .line::before {
+  width: 2em;
+}
+.markdown-preview-enhanced pre.editor-colors.lineNo.lineno-1000 .line::before {
+  width: 2.5em;
+}
+.markdown-preview-enhanced pre.editor-colors.lineNo.lineno-10000 .line::before {
+  width: 3em;
+}
+.markdown-preview-enhanced pre.editor-colors.lineNo.lineno-100000 .line::before {
+  width: 3.5em;
+}
+.markdown-preview-enhanced kbd {
+  color: #000000;
+  border: 1px solid #d6d6d6;
+  border-bottom: 2px solid #c7c7c7;
+  padding: 2px 4px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+}
+.markdown-preview-enhanced .pagebreak,
+.markdown-preview-enhanced .newpage {
+  page-break-before: always;
+}
+@media screen and (min-width: 914px) {
+  .markdown-preview-enhanced {
+    width: 980px;
+    margin: 10px auto;
+    background: #fff;
+  }
+}
+@media screen and (max-width: 400px) {
+  .markdown-preview-enhanced {
+    font-size: 14px;
+    margin: 0 auto;
+    padding: 15px;
+  }
+}
+@media print {
+  .markdown-preview-enhanced {
+    background-color: #fff;
+    /*table,*/
+  }
+  .markdown-preview-enhanced h1,
+  .markdown-preview-enhanced h2,
+  .markdown-preview-enhanced h3,
+  .markdown-preview-enhanced h4,
+  .markdown-preview-enhanced h5,
+  .markdown-preview-enhanced h6 {
+    color: #000000;
+    page-break-after: avoid;
+  }
+  .markdown-preview-enhanced blockquote {
+    color: #5c5c5c;
+  }
+  .markdown-preview-enhanced pre {
+    page-break-inside: avoid;
+  }
+  .markdown-preview-enhanced table {
+    display: table;
+  }
+  .markdown-preview-enhanced img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .markdown-preview-enhanced pre,
+  .markdown-preview-enhanced code {
+    word-wrap: break-word;
+    white-space: normal;
+  }
+}
+.markdown-preview-enhanced .mathjax-exps .MathJax_Display {
+  text-align: center !important;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk {
+  position: relative;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk .output-div {
+  overflow-x: auto;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk .output-div svg {
+  display: block;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk pre {
+  cursor: text;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk .btn-group {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: none;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk .btn-group .run-btn,
+.markdown-preview-enhanced[for="preview"] .code-chunk .btn-group .run-all-btn {
+  float: right;
+  margin-left: 4px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  color: #eee;
+  background-color: #528bff;
+  background-image: none;
+  border: none;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk .btn-group .run-btn:hover,
+.markdown-preview-enhanced[for="preview"] .code-chunk .btn-group .run-all-btn:hover {
+  background-color: #4b7fe8;
+  cursor: pointer;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk:hover .btn-group {
+  display: block;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk .status {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 0.85em;
+  color: inherit;
+  padding: 2px 6px;
+  background-color: rgba(0, 0, 0, 0.04);
+  display: none;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk.running .btn-group {
+  display: none;
+}
+.markdown-preview-enhanced[for="preview"] .code-chunk.running .status {
+  display: block;
+}
+.markdown-preview-enhanced:not([for="preview"]) .code-chunk .btn-group {
+  display: none;
+}
+.markdown-preview-enhanced:not([for="preview"]) .code-chunk .status {
+  display: none;
+}
+/*
+ * Reveal.js styles
+ */
+[data-presentation-preview-mode] {
+  background-color: #f4f4f4;
+}
+[data-presentation-preview-mode] .preview-slides {
+  width: 100%;
+}
+[data-presentation-preview-mode] .preview-slides .slide {
+  position: relative;
+  background-color: #fff;
+  padding: 2em !important;
+  margin-bottom: 12px;
+  text-align: left !important;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 0px 16px 4px #eeeeee;
+  font-size: 24px;
+}
+[data-presentation-preview-mode] .preview-slides .slide h1,
+[data-presentation-preview-mode] .preview-slides .slide h2,
+[data-presentation-preview-mode] .preview-slides .slide h3,
+[data-presentation-preview-mode] .preview-slides .slide h4,
+[data-presentation-preview-mode] .preview-slides .slide h5,
+[data-presentation-preview-mode] .preview-slides .slide h6 {
+  margin-top: 0;
+}
+[data-presentation-preview-mode] .preview-slides .slide .background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+[data-presentation-preview-mode] .preview-slides .slide .background-iframe,
+[data-presentation-preview-mode] .preview-slides .slide .background-iframe-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border: none;
+  z-index: 1;
+}
+[data-presentation-preview-mode] .preview-slides .slide .background-iframe-overlay {
+  z-index: 2;
+}
+[data-presentation-preview-mode] section {
+  display: block;
+  width: 100%;
+  transform-style: preserve-3d;
+  font-size: 100%;
+  font: inherit;
+}
+.markdown-preview-enhanced[data-presentation-mode] {
+  font-size: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.markdown-preview-enhanced[data-presentation-mode] h1,
+.markdown-preview-enhanced[data-presentation-mode] h2,
+.markdown-preview-enhanced[data-presentation-mode] h3,
+.markdown-preview-enhanced[data-presentation-mode] h4,
+.markdown-preview-enhanced[data-presentation-mode] h5,
+.markdown-preview-enhanced[data-presentation-mode] h6 {
+  margin-top: 0;
+}
+.markdown-preview-enhanced[data-presentation-mode] strong {
+  font-weight: bold;
+}
+.markdown-preview-enhanced[data-presentation-mode]::-webkit-scrollbar {
+  display: none;
+}
+.markdown-preview-enhanced .slides {
+  text-align: left !important;
+}
+
+    /*
+ * Your Stylesheet
+ *
+ * This stylesheet is loaded when Atom starts up and is reloaded automatically
+ * when it is changed and saved.
+ *
+ * Add your own CSS or Less to fully customize Atom.
+ * If you are unfamiliar with Less, you can read more about it here:
+ * http://lesscss.org
+ */
+/*
+ * Examples
+ * (To see them, uncomment and save)
+ */
+
+    </style>
+
+    <link rel="stylesheet" href="file:///C:\Users\kitcoop\.atom\packages\markdown-preview-enhanced\node_modules\katex\dist\katex.min.css">
+
+    
+  </head>
+  <body class="markdown-preview-enhanced   "  >
+
+  <h2 id="9&#xC77C;&#xCC28;&#xBAA8;&#xB378;1&#xC758;-&#xAC8C;&#xC2DC;&#xD310;-&#xAC1C;&#xC694;&#xBC0F;-&#xC791;&#xC131;&#xBC95;-&#xD398;&#xC774;&#xC9D5;&#xCC98;&#xB9AC;">9일차(모델1의 게시판 개요및 작성법-페이징처리)</h2>
+<h3 id="&#xAC8C;&#xC2DC;&#xD310;&#xC758;-&#xC885;&#xB958;">게시판의 종류</h3>
+<ol>
+<li><p>공지사항</p>
+<ul>
+<li>관리자만 글쓰기,편집,삭제</li>
+</ul></li>
+<li><p>자유게시판</p>
+<ul>
+<li>회원에 가입X 자유롭게 글쓰기,글수정,글삭제,글조회,,, 댓글(X)</li>
+</ul></li>
+<li><p>Q&amp;A게시판(=답변형 게시판)</p>
+<ul>
+<li>변형이 되는 게시판</li>
+<li>게시판 목록에 댓글 갯수 기능 <br> ex) 152p 예외처리 질문 [2]</li>
+<li>글쓰기,글수정,글삭제,글조회+댓글기능</li>
+<li>회원제 운영(실명제) O or 회원아닌 경우 X</li>
+<li>글삭제(게시판의 취지와 상관없는 광고성~)</li>
+<li>욕설 자동 변경 기능</li>
+</ul></li>
+<li><p>자료실 겸용 게시판</p></li>
+<li><p>답변형 게시판</p></li>
+<li><p>공지사항게시판</p></li>
+</ol>
+<blockquote>
+<ul>
+<li>따로 만들어서 하나의 페이지에 붙이는 경우 답변형게시판</li>
+<li>눈에 보이는 필드/보이지 않는 필드</li>
+</ul>
+<blockquote>
+<ul>
+<li><p>눈에 보이는 필드 : <br>(번호,분류(공지,Q&amp;A,,,),제목,이름(작성자),작성날짜(오늘날짜),조회수)</p></li>
+<li><p>눈에 보이지 않는 필드 : <br>댓글(ref, step, level)<br> 참조 : (<a href="http://moonbg.tistory.com/42">http://moonbg.tistory.com/42</a>)</p></li>
+</ul>
+</blockquote>
+</blockquote>
+<hr>
+<h4 id="mysql-&#xC124;&#xCE58;">Mysql 설치</h4>
+<ol>
+<li>9일차 DB자료/mysql-essential-5.1.45-win32_1</li>
+</ol>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Next&nbsp;-&gt;&nbsp;Custom(환경설정하면서&nbsp;세밀하게&nbsp;설치하기&nbsp;위해서)&nbsp;-&gt;&nbsp;Next&nbsp;-&gt;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Change&nbsp;-&gt;&nbsp;Folder&nbsp;name&nbsp;:&nbsp;C:\MySQL5.1\&nbsp;-&gt;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Next&nbsp;-&gt;&nbsp;~~&nbsp;-&gt;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Configure&nbsp;the&nbsp;MySQL&nbsp;Server&nbsp;now&nbsp;체크(계속&nbsp;환경설정을&nbsp;이어서&nbsp;할&nbsp;예정),</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Register&nbsp;the&nbsp;MySQL&nbsp;Server&nbsp;now&nbsp;체크&nbsp;해제</span></span></span></div></pre>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Developer&nbsp;Machine(개발용)</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Multifunctionak&nbsp;Database(다기능&nbsp;목적)</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Manual&nbsp;Setting&nbsp;(동시&nbsp;점속수&nbsp;지정)&nbsp;체크</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>포트번호&nbsp;3306</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>언어선택&nbsp;:&nbsp;Manual&nbsp;SEelected&nbsp;Default&nbsp;~&nbsp;:&nbsp;*utf-8*</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>서비스-&gt;MySQL,&nbsp;Install&nbsp;As&nbsp;Windows&nbsp;Service&nbsp;체크,&nbsp;Iclude&nbsp;Bin&nbsp;~&nbsp;체크</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>PATH에&nbsp;bin&nbsp;폴더&nbsp;등록&nbsp;-&gt;&nbsp;경로에&nbsp;상관없이&nbsp;mysql명령어&nbsp;사용하기&nbsp;위해서</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>암호&nbsp;1234&nbsp;,&nbsp;Ebable&nbsp;root&nbsp;access&nbsp;from&nbsp;remote&nbsp;machines&nbsp;체크!&nbsp;(원격접속&nbsp;가능)</span></span></span></div></pre>
+<h3 id="mysql-&#xC0AC;&#xC6A9;&#xBC95;">Mysql 사용법</h3>
+<ul>
+<li>오라클은 계정으로 테이블을 보여주지만 Mysql은 DataBase로 구분한다</li>
+</ul>
+<h5 id="&#xD604;&#xC7AC;-&#xC5B4;&#xB5A4;-&#xB370;&#xC774;&#xD130;&#xBCA0;&#xC774;&#xC2A4;&#xC778;&#xC9C0;-&#xBAA9;&#xB85D;-&#xD655;&#xC778;">현재 어떤 데이터베이스인지 목록 확인</h5>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>show&nbsp;databases;&nbsp;//탐색기의&nbsp;폴더처럼&nbsp;생각</span></span></span></div></pre>
+<h5 id="&#xD2B9;&#xC815;-db&#xC811;&#xC18D;">특정 DB접속</h5>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>use&nbsp;전환DB명</span></span></span></div></pre>
+<h5 id="db&#xC5D0;-&#xC5B4;&#xB358;&#xD14C;&#xC774;&#xBE14;&#xC774;-&#xB4E4;&#xC5B4;&#xAC00;-&#xC788;&#xB294;-&#xC9C0;-&#xBCF4;&#xC5EC;&#xC8FC;&#xC138;&#xC694;">DB에 어던테이블이 들어가 있는 지 보여주세요</h5>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>show&nbsp;tables;</span></span></span></div></pre>
+<h5 id="user-&#xD14C;&#xC774;&#xBE14;&#xC758;-&#xAD6C;&#xC870;&#xD655;&#xC778;">user 테이블의 구조확인</h5>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>desc&nbsp;user</span></span></span></div></pre>
+<h5 id="&#xC885;&#xB8CC;">종료</h5>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>exit</span></span></span></div></pre>
+<hr>
+<h4 id="mysql-server-&#xB85C;&#xADF8;&#xC778;">Mysql Server 로그인</h4>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>유저명&nbsp;:&nbsp;root</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>패스워드&nbsp;:&nbsp;1234</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>서버&nbsp;:&nbsp;localhost</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>포트&nbsp;:&nbsp;3306</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>데이터베이스&nbsp;:&nbsp;mysql&nbsp;-&gt;&nbsp;처음에&nbsp;존재하는&nbsp;DB에&nbsp;접속</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>캐릭터셋&nbsp;:&nbsp;UTF-8</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>유니코드&nbsp;사용&nbsp;체크!</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>연결테스트&nbsp;-&gt;&nbsp;접속성공</span></span></span></div></pre>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>도구&nbsp;-&gt;&nbsp;프로그램&nbsp;옵션-&gt;SQL&nbsp;에디터&nbsp;-&gt;&nbsp;Options&nbsp;-&gt;&nbsp;하단의&nbsp;에디터폰트&nbsp;-&gt;</span></span></span></div></pre>
+<h5 id="&#xC2E4;&#xD589;-&#xBC29;&#xBC95;">실행 방법</h5>
+<ul>
+<li>블럭 지정 run버튼 클릭!</li>
+</ul>
+<h5 id="db&#xC0DD;&#xC131;">DB생성</h5>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>create&nbsp;database&nbsp;생성할&nbsp;DB명</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>create&nbsp;database&nbsp;test2</span></span></span></div></pre>
+<h6 id="db&#xC0AD;&#xC81C;">DB삭제</h6>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>drop&nbsp;database&nbsp;삭제시킬DB명</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>drop&nbsp;database&nbsp;test2</span></span></span></div></pre>
+<h5 id="db&#xC120;&#xD0DD;">DB선택</h5>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>use&nbsp;mydb;</span></span></span></div></pre>
+<h5 id="&#xD14C;&#xC774;&#xBE14;-&#xC0DD;&#xC131;">테이블 생성</h5>
+<ul>
+<li>테이블 생성-&gt;오라클과 형식이 같다(자료형이 틀린것이 있다)</li>
+</ul>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>create&nbsp;table&nbsp;board(</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>num&nbsp;int&nbsp;not&nbsp;null&nbsp;primary&nbsp;key&nbsp;auto_increment,&nbsp;/*&nbsp;&nbsp;글번호를&nbsp;저장하는필드&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>writer&nbsp;varchar(10)&nbsp;not&nbsp;null,&nbsp;/*글쓴이&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>email&nbsp;varchar(30),&nbsp;&nbsp;/*&nbsp;&nbsp;이메일-&gt;유일하게null값을허용*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>subject&nbsp;varchar(50)&nbsp;not&nbsp;null,&nbsp;/*글제목&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>passwd&nbsp;varchar(12)&nbsp;not&nbsp;null,&nbsp;/*글의&nbsp;비밀번호&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>reg_date&nbsp;datetime&nbsp;not&nbsp;null,&nbsp;/*글을쓴&nbsp;날짜*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>readcount&nbsp;int&nbsp;default&nbsp;0,&nbsp;/*&nbsp;&nbsp;글의조회수&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>ref&nbsp;int&nbsp;not&nbsp;null,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*&nbsp;&nbsp;글을그룹화하기위한&nbsp;필드&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>re_step&nbsp;smallint&nbsp;not&nbsp;null,&nbsp;/*&nbsp;&nbsp;제목글과&nbsp;답변글의순서를&nbsp;정리*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>re_level&nbsp;smallint&nbsp;not&nbsp;null,&nbsp;/*&nbsp;&nbsp;글의&nbsp;레벨을저장하는필드&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>content&nbsp;text&nbsp;not&nbsp;null,&nbsp;/*&nbsp;&nbsp;글내용&nbsp;&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>ip&nbsp;varchar(20)&nbsp;not&nbsp;null&nbsp;/*&nbsp;&nbsp;글쓴이의ip주소를&nbsp;저장하는필드&nbsp;*/</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>);</span></span></span></div></pre>
+<ul>
+<li>오라클 mysql 차이</li>
+</ul>
+<table>
+<thead>
+<tr><th>오라클</th><th>mysql</th></tr>
+</thead>
+<tbody>
+<tr><td>varchar2, varchar</td><td>varchar</td></tr>
+<tr><td>number</td><td>int-&gt;&gt; smallint</td></tr>
+<tr><td>sequence <br> create sequence 시컨스명 bord_seq;</td><td>auto_increment</td></tr>
+</tbody>
+</table>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--5.필드&nbsp;추가</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--&nbsp;alter&nbsp;table&nbsp;수정t&nbsp;add&nbsp;column&nbsp;필드명&nbsp;데이터형</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>alter&nbsp;table&nbsp;sawon&nbsp;add&nbsp;column&nbsp;addr&nbsp;varchar(40);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--6.필드를&nbsp;삭제</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--alter&nbsp;table&nbsp;수정t&nbsp;drop&nbsp;column&nbsp;삭제할&nbsp;필드명</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>alter&nbsp;table&nbsp;sawon&nbsp;drop&nbsp;column&nbsp;addr;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--7.필드를&nbsp;변경</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--alter&nbsp;table&nbsp;수정t&nbsp;modify&nbsp;column&nbsp;변경할&nbsp;필드명&nbsp;자료형</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>alter&nbsp;table&nbsp;sawon&nbsp;modify&nbsp;column&nbsp;dept&nbsp;varchar(30);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--8.데이터를&nbsp;입력</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>insert&nbsp;into&nbsp;sawon&nbsp;values(1,&#39;홍길동&#39;,&#39;영업부&#39;);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>insert&nbsp;into&nbsp;sawon&nbsp;values(2,&#39;테스트&#39;,&#39;개발부&#39;);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>insert&nbsp;into&nbsp;sawon&nbsp;values(3,&#39;임시&#39;,&#39;관리부&#39;);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>insert&nbsp;into&nbsp;sawon&nbsp;values(4,&#39;임시2&#39;,&#39;총무부&#39;);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>insert&nbsp;into&nbsp;sawon&nbsp;values(5,&#39;테스트2&#39;,&#39;생산2부&#39;);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--9.select</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>select&nbsp;*&nbsp;from&nbsp;sawon&nbsp;where&nbsp;id=2&nbsp;or&nbsp;dept=&#39;영업부&#39;;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--10.테이블의&nbsp;이름을&nbsp;변경=&gt;rename&nbsp;table&nbsp;원본t&nbsp;to&nbsp;변경t명</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>rename&nbsp;table&nbsp;sawon&nbsp;to&nbsp;test;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>rename&nbsp;table&nbsp;test&nbsp;to&nbsp;sawon;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--11.테이블의&nbsp;백업</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--&nbsp;create&nbsp;table&nbsp;백업t&nbsp;as&nbsp;select&nbsp;*&nbsp;from&nbsp;원본t</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>create&nbsp;table&nbsp;b_sawon&nbsp;as&nbsp;select&nbsp;*&nbsp;from&nbsp;sawon;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--12.필드&nbsp;정렬-&gt;&nbsp;order&nbsp;by&nbsp;정렬할&nbsp;필드명&nbsp;정렬기준(asc&nbsp;or&nbsp;desc)</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>select&nbsp;*&nbsp;from&nbsp;sawon&nbsp;order&nbsp;by&nbsp;id&nbsp;desc;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--13.필드명&nbsp;변경</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>--alter&nbsp;table&nbsp;변경t&nbsp;change&nbsp;기존필드명&nbsp;새로운&nbsp;필드명&nbsp;자료형</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>alter&nbsp;table&nbsp;b_sawon&nbsp;change&nbsp;dept&nbsp;deptment&nbsp;varchar(20);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>desc&nbsp;b_sawon</span></span></span></div></pre>
+<hr>
+<hr>
+<h3 id="jspboard">JspBoard</h3>
+<ul>
+<li>DB는 Mysql 사용 할 것이다.</li>
+</ul>
+<h4 id="&#xBE48;-&#xBC29;&#xBC95;">빈 방법</h4>
+<ol>
+<li>DB연결 빈 - DBConnectionMgr.java</li>
+</ol>
+<pre class="editor-colors lang-java"><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>MySQL</span><span>&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>private</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>_driver</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>org.gjt.mm.mysql.Driver</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--delimiter mpe-syntax--java"><span>,</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;_url&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&amp;characterEncoding=UTF-8</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--delimiter mpe-syntax--java"><span>,</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;_user&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>root</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--delimiter mpe-syntax--java"><span>,</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;_password&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>1234</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--comment mpe-syntax--block mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>/*</span></span><span>&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;String&nbsp;_driver&nbsp;=&nbsp;&quot;oracle.jdbc.driver.OracleDriver&quot;,</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--comment mpe-syntax--block mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;_url&nbsp;=&nbsp;&quot;jdbc:oracle:thin:@localhost:1521:orcl&quot;,</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--comment mpe-syntax--block mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;_user&nbsp;=&nbsp;&quot;scott&quot;,</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--comment mpe-syntax--block mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;_password&nbsp;=&nbsp;&quot;tiger&quot;;</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>*/</span></span></span></span></div></pre>
+<table>
+<thead>
+<tr><th> </th><th>mysql</th><th>Oracle</th></tr>
+</thead>
+<tbody>
+<tr><td>포트번호</td><td>3306</td><td>1521</td></tr>
+</tbody>
+</table>
+<hr>
+<hr>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>게시판*</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>------------</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>1)&nbsp;b_ref&nbsp;(reply&nbsp;family)-&gt;윗글(일반글)과답변글을묶어준다.</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>단독으로&nbsp;사용하는&nbsp;경우</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>각각의&nbsp;게시물을&nbsp;구분하는&nbsp;인자로&nbsp;사용</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(=num와&nbsp;같다)</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>2)&nbsp;b_step(reply&nbsp;step)-&gt;몇번째단계의답변인지를나타내는컬럼</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>-&gt;같은그룹내에서도답변글을구분</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>3)&nbsp;b_level(reply&nbsp;level)=&gt;&nbsp;글의정렬순서를지정해주는&nbsp;컬럼</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>가로</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(들여쓰기)&nbsp;-&gt;답변</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>게시판에&nbsp;글쓰기</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>------------------------&gt;신규글일때&nbsp;step,level-&gt;0</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>num&nbsp;&nbsp;&nbsp;&nbsp;writer&nbsp;&nbsp;&nbsp;&nbsp;,,,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;step&nbsp;&nbsp;&nbsp;&nbsp;level</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>|</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>-aaa-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>|</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>-aaa-2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>|</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>-aaa-3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bbb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>|</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>-bbb-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>|</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>-bbb-2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ccc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>|</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>-ccc-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ddd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>|</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>-ddd-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>select&nbsp;*&nbsp;from&nbsp;board&nbsp;order&nbsp;by&nbsp;ref&nbsp;desc,re_step&nbsp;asc&nbsp;limit&nbsp;?,?</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>num</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>그룹번호는&nbsp;내림차순으로&nbsp;정렬하되&nbsp;답변글&nbsp;순서는&nbsp;오름차순으로</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>정렬하라&nbsp;몇번째&nbsp;레코드부터&nbsp;몇개기준으로</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>----------------------------------------------------------------</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>테이블의&nbsp;필드&nbsp;3개(ref,step,level)</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>record-&gt;10개-&gt;1페이지-&gt;10개페이지&nbsp;(1&nbsp;&nbsp;&nbsp;&nbsp;블럭)</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>블럭의&nbsp;종류</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>1~10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11~20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21~30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>1.이전블럭=&gt;이전&nbsp;10개&nbsp;11&nbsp;12&nbsp;13&nbsp;14&nbsp;15&nbsp;16&nbsp;17&nbsp;18&nbsp;19&nbsp;20&nbsp;다음블럭</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>----------&nbsp;&nbsp;&nbsp;현재&nbsp;블럭</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>2.현재블럭&nbsp;&nbsp;1&nbsp;2&nbsp;3&nbsp;4&nbsp;[5]&nbsp;6&nbsp;7&nbsp;8&nbsp;9&nbsp;10</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>현재&nbsp;블럭</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>3.다음블럭&nbsp;1&nbsp;2&nbsp;3&nbsp;4&nbsp;5&nbsp;6&nbsp;7&nbsp;8&nbsp;9&nbsp;10&nbsp;:::&nbsp;다음&nbsp;10개?</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>다음블럭</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>1.&nbsp;int&nbsp;nowPage=&gt;현재&nbsp;보고&nbsp;있는&nbsp;페이지(클릭해서)</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>2.&nbsp;int&nbsp;nowBlock=&gt;현재블럭=&gt;현재&nbsp;페이지가&nbsp;포함된&nbsp;전체&nbsp;페이지</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>들</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>3&nbsp;&nbsp;int&nbsp;numPerPage&nbsp;=&nbsp;10;&nbsp;&nbsp;=&gt;페이지당&nbsp;보여주는&nbsp;레코드수를&nbsp;지정&nbsp;&nbsp;&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>4.&nbsp;int&nbsp;pagePerBlock&nbsp;=&nbsp;10;&nbsp;=&gt;블럭당&nbsp;보여주는&nbsp;페이지수를&nbsp;지정</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>5.&nbsp;총페이지수=총레코드수/페이지당&nbsp;보여주는&nbsp;레코드수</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>122/10=12.2=(int)13.2=13</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>12페이지&nbsp;10개&nbsp;2개-&gt;1&nbsp;페이지를&nbsp;더&nbsp;생성-&gt;총&nbsp;13페이지</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>int&nbsp;totalPage&nbsp;=(int)Math.ceil((double)totalRecord&nbsp;/&nbsp;numPerPage);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>무조건&nbsp;올림메서드</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>6.&nbsp;총블럭수=총페이지수&nbsp;/블럭당&nbsp;보여주는&nbsp;페이지수</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>int&nbsp;totalBlock&nbsp;=(int)Math.ceil((double)totalPage&nbsp;/&nbsp;pagePerBlock);</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>13/10</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;</span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>7.&nbsp;페이지당&nbsp;맨&nbsp;처음에&nbsp;보여주는&nbsp;게시물&nbsp;번호</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>현재페이지*페이지당&nbsp;보여주는&nbsp;레코드수</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>int&nbsp;beginPerPage&nbsp;=&nbsp;&nbsp;&nbsp;nowPage&nbsp;*&nbsp;numPerPage;</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>ex)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1*10=10,9,8,7,6</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>2*10=20,19,18,17,16,,</span></span></span></div></pre>
+
+
+  </body>
+  
+</html>
