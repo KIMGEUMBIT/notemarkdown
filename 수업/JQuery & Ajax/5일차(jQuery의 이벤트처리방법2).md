@@ -9,7 +9,6 @@
 
 ```js
 $("div").click(function() { alert('click'); }
-
 ```
 
 #### 정답)
@@ -100,8 +99,85 @@ $(function(){
     }
 })
 
-하트하트시러욧
-왜욧
-헤헤
-
 ```
+
+#### wrap()이벤트
+
+#### preventDefault()
+
+```js
+//전송버튼의 기본적인 기능->데이터를 전송시키는 기능(action="aa.jsp")
+$('#frm').submit(function(event){
+  var new_line = $('<li>'+$('#data').val()+'</li>')
+  $('#disp').append(new_line);
+  event.preventDefault();
+  //전송을 하지 못하게 설정
+  //return false
+})
+```
+
+cf) 이벤트 동작정지 함수들
+
+| 함수명                           | 설명                                                                                                                |
+|----------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| event.preventDefault()           | 현재 이벤트의 기본 동작을 중단한다.                                                                                 |
+| event.stopPropagation()          | 현재 이벤트가 상위로 전파되지 않도록 중단한다.                                                                      |
+| event.stopImmediatePropagation() | 현재 이벤트가 상위뿐 아니라 현재 레벨에 걸린 다른 이벤트도 동작하지 않도록 중단한다.                                |
+| return false                     | jQuery를 사용할 때는 위의 두개 모두를 수행한 것과 같고, jQuery를 사용하지 않을 때는 event.preventDefault() 와 같다. |
+
+---
+
+```js
+<script>
+$(function(){
+    $('h1').css({'color':'red','text-decoration':'underline'})
+    //형식) $('자식선택자').wrap('부모태그 내용')
+    $('#message').wrap('<h2>요소안에 자료를 넣기</h2>')
+    //focus이벤트->커서가 들어가는 경우 발생
+    $('input').focus(function(){
+        $(this).addClass('focused')
+    })
+    //blur이벤트->커서가 벗어났을때 발생하는 이벤트
+    $('input').blur(function(){
+        $(this).removeClass('focused')
+    })
+    //전송버튼의 기본적인 기능->데이터를 전송시키는 기능(action="aa.jsp")
+    $('#frm').submit(function(event){
+        var new_line=$('<li>'+$('#data').val()+'</li>')
+        $('#disp').append(new_line)
+        event.preventDefault();//전송을 하지 못하게 설정
+        //return false
+    })
+    //a링크 문자열을 클릭한 경우
+    $('a').click(function(){
+        alert('당신은 이동할 권한이 없습니다.')
+        return false;
+    })
+})
+</script>
+```
+
+```html
+<body>
+ <h1>jQuery의 이벤트종류 정리</h1>
+  <!-- <h2>요소안에 자료를 넣기 -->
+ <div id="message"></div>
+  <!-- </h2> -->
+ <form id="frm" action="aa.jsp">
+   <input type="text" id="data">
+   <input type="submit" value="확인">
+ </form>
+ <ul id="disp">
+      <!--
+      <li>aaa</li>
+      <li>bbb</li> -->
+ </ul><p>
+ <a href="http://www.naver.com">naver</a>
+</body>
+```
+
+![123123](/assets/123123.GIF)
+
+#### jQuery로 submit()
+
+-	$('#signup').attr('action','register.jsp').submit(); W
