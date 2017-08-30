@@ -212,3 +212,82 @@ public class Camera {}
 ```java
 HomeController2 home2 =context.getBean("homeCvn",HomeController2.class);
 ```
+
+---
+
+Springmvc
+---------
+
+#### 1. Spring에서 모델 역할 지정 방법
+
+```
+<!--컨트롤러역할을 하는 서블릿의 이름,요청경로를 지정  -->
+   /list.do=action.ListAction->commandPro.properties=>xml파일
+
+ex)  <bean name="/list.do" class="action.ListAction" /> =>이런식으로
+```
+
+#### 요청이 들어왔을 때 처리하는 방법
+
+-	형식) XXX-servlet.xml 파일 <br>(단, web.xml과 같은 폴더에 저장)
+
+```
+형식) test-servlet.xml파일===>dispatcher-servlet.xml파일
+        XXX-servlet.xml파일로 만들어진다.
+```
+
+![2](/assets/2.GIF)
+
+##### web.xml
+
+１. 요청이 들어왔을 경우 어떤 xml파일로 할 것인지 <br>(test) 라고 지정한다면 자동으롷 test-servlet.xml 찾아간다
+
+```
+<!--컨트롤러역할을 하는 서블릿의 이름,요청경로를 지정  -->
+<servlet>
+   <servlet-name>test</servlet-name>
+   <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+</servlet>
+
+<!-- 어떻게 요청이 들어왔을때 처리할 것인가?  -->
+<servlet-mapping>
+   <servlet-name>test</servlet-name>
+   <url-pattern>*.do</url-pattern>
+</servlet-mapping>
+```
+
+##### test-servlet.xml
+
+２. 어떤 Action컨트롤러 사용할 것인지 알려주는 클래스 **BeanNameUrlHandlerMapping**
+
+```xml
+//(2) 어떤 컨트롤러인지
+<bean id="defaultHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+```
+
+３.index.do일 경우 list.jsp로 이동하도록 만들기
+
+-	형식)
+
+```
+<bean name="/요청명령어.do" class="패키지명....처리컨트롤러클래스>
+  <property name="viewName" value="list" />
+</bean>
+```
+
+```xml
+<bean name="/index.do" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+<property name="viewName" value="list"></property>
+</bean>
+```
+
+４. viewResolver()위치, 이동할 페이지 확장자를 지정
+
+```xml
+<bean id="viewResolover" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.IntenalResourceViewResolver"></property>
+    <property name="prefix" value="/"></property> <!-- /은 WebContent를 의미 -->
+    <property name="suffix" value=".jsp"></property>
+</bean>
+
+```
